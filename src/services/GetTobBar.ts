@@ -1,13 +1,19 @@
-export default async function getTopBar() {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASEURL}/api/topBar`);
-    if (!res.ok) throw new Error("Network response was not ok");
+import { headers } from "next/headers";
 
-    const data = await res.json();
-    console.log(data);
-    return data.data; // adjust based on your API response structure
-  } catch (error) {
-    console.error("Failed to fetch topBar:", error);
-    return "Contact Us +91 70336 50159";
-  }
+export default async function getTopBar() {
+  const headersList = await headers(); // ✅ Await the Promise
+  const host = headersList.get("host"); // ✅ Works now
+
+  const protocol =
+    process.env.NODE_ENV === "production" ? "https" : "http";
+
+  const baseUrl = `${protocol}://${host}`;
+
+  const res = await fetch(`${baseUrl}/api/topBar`, {
+    next: { revalidate: 60 }, // optional caching
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch topbar");
+  const data = await res.json();
+  return data.data;
 }
