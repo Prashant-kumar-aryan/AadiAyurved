@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>Welcome to Ayurveda Client</div>;
+  return <div className="bg-green-50 "></div>;
 }
