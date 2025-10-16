@@ -67,7 +67,6 @@ export default function Header() {
       { key: "home", label: "Home", dropdown: false },
       { key: "pain", label: "Pain Management", dropdown: true },
       { key: "products", label: "Products", dropdown: false },
-      { key: "services", label: "Our Services", dropdown: true },
       { key: "contact", label: "Contact Us", dropdown: false },
       { key: "about", label: "About", dropdown: false },
     ],
@@ -88,27 +87,27 @@ export default function Header() {
             <Link
               href="/"
               className="text-xl font-semibold tracking-tight text-gray-900"
-              aria-label="AyurWellness Home"
+              aria-label="AyurVeda Home"
             >
-              AyurWellness
+              Aadi Ayurved
             </Link>
           </div>
 
           {/* Center: Desktop Nav */}
           <nav
-            className="hidden md:flex items-center gap-1"
+            className="hidden md:flex items-center gap-4"
             aria-label="Primary"
             onMouseLeave={() => setOpenDropdown(null)}
           >
-            <Link href="/" className={`${navBaseLink} text-xs`}>
+            <Link href="/" className={`${navBaseLink} `}>
               Home
             </Link>
-            <Link href="/shop-by-disease" className={`${navBaseLink} text-xs`}>
+            <Link href="/shop-by-disease" className={`${navBaseLink}  `}>
               Shop by Disease
             </Link>
 
             {/* Pain Management small dropdown */}
-            <div
+            {/* <div
               className="relative"
               onMouseEnter={() => setOpenDropdown("pain")}
             >
@@ -144,57 +143,18 @@ export default function Header() {
                   ))}
                 </ul>
               </div>
-            </div>
+            </div> */}
 
             {/* Products */}
-            <Link href="#" className={navBaseLink}>
+            <Link href="/products" className={navBaseLink}>
               Products
             </Link>
 
-            {/* Our Services small dropdown */}
-            <div
-              className="relative"
-              onMouseEnter={() => setOpenDropdown("services")}
-            >
-              <button
-                type="button"
-                className={`${navBaseLink} flex items-center gap-1`}
-                aria-haspopup="true"
-                aria-expanded={openDropdown === "services"}
-                aria-controls="dropdown-services"
-              >
-                <span>Our Services</span>
-                <ChevronDown className="h-4 w-4 text-gray-500" />
-              </button>
-              <div
-                id="dropdown-services"
-                className={`${dropdownPanelBase} min-w-[220px] p-2 ${
-                  openDropdown === "services"
-                    ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-                    : "opacity-0 scale-95 -translate-y-1 pointer-events-none"
-                }`}
-                onMouseEnter={() => setOpenDropdown("services")}
-              >
-                <ul className="py-1">
-                  {SERVICES_MENU.map((label) => (
-                    <li key={label}>
-                      <Link
-                        href="#"
-                        className="block rounded-md px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all duration-200"
-                      >
-                        {label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
             {/* Contact & About */}
-            <Link href="#" className={navBaseLink}>
+            <Link href="/contact" className={navBaseLink}>
               Contact Us
             </Link>
-            <Link href="#" className={navBaseLink}>
+            <Link href="/about" className={navBaseLink}>
               About
             </Link>
           </nav>
@@ -202,14 +162,14 @@ export default function Header() {
           {/* Right: Icons */}
           <div className="flex items-center gap-1">
             <Link
-              href="#"
+              href="/cart"
               className="relative rounded-md p-2 text-gray-700 hover:bg-gray-100 transition-all duration-200"
               aria-label="View cart"
             >
               <ShoppingCart className="h-5 w-5" />
             </Link>
             <Link
-              href="#"
+              href="/profile"
               className="rounded-md p-2 text-gray-700 hover:bg-gray-100 transition-all duration-200"
               aria-label="Profile"
             >
@@ -269,7 +229,7 @@ export default function Header() {
               </li>
 
               {/* Pain Management accordion */}
-              <li className="mt-2">
+              {/* <li className="mt-2">
                 <button
                   type="button"
                   className="flex w-full items-center justify-between rounded-md px-3 py-3 text-left text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
@@ -304,7 +264,7 @@ export default function Header() {
                     ))}
                   </ul>
                 </div>
-              </li>
+              </li> */}
 
               {/* Products */}
               <li className="mt-2">
@@ -317,48 +277,10 @@ export default function Header() {
                 </Link>
               </li>
 
-              {/* Our Services accordion */}
-              <li className="mt-2">
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between rounded-md px-3 py-3 text-left text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
-                  aria-expanded={mobileServicesOpen}
-                  onClick={() => setMobileServicesOpen((v) => !v)}
-                >
-                  <span>Our Services</span>
-                  <ChevronDown
-                    className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
-                      mobileServicesOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`grid overflow-hidden transition-all duration-300 ${
-                    mobileServicesOpen
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
-                  }`}
-                >
-                  <ul className="min-h-0 rounded-md border border-gray-200 py-1">
-                    {SERVICES_MENU.map((label) => (
-                      <li key={label}>
-                        <Link
-                          href="#"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-all duration-200"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-
               {/* Contact & About */}
               <li className="mt-2">
                 <Link
-                  href="#"
+                  href="/contact"
                   className="block rounded-md px-3 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -367,7 +289,7 @@ export default function Header() {
               </li>
               <li className="mt-2">
                 <Link
-                  href="#"
+                  href="/about"
                   className="block rounded-md px-3 py-3 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -379,7 +301,7 @@ export default function Header() {
             {/* Mobile bottom actions */}
             <div className="mt-4 flex items-center gap-2">
               <Link
-                href="#"
+                href="/cart"
                 className="flex flex-1 items-center justify-center gap-2 rounded-md border border-gray-200 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -387,7 +309,7 @@ export default function Header() {
                 Cart
               </Link>
               <Link
-                href="#"
+                href="/profile"
                 className="flex flex-1 items-center justify-center gap-2 rounded-md border border-gray-200 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
