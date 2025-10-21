@@ -104,24 +104,34 @@ export default function ContactPage() {
             {
               title: "Phone",
               description: "Call us during business hours",
-              value: "+91 98765 43210",
-              link: "tel:+919876543210",
+              value: "+91 74889 31899",
+              link: "tel:+91 74889 31899",
               extra: "Mon - Sat: 9:00 AM - 6:00 PM",
               icon: <Phone className="w-6 h-6 text-emerald-700" />,
             },
             {
               title: "Email",
               description: "Send us your inquiries",
-              value: "info@drrnguptaclinic.com",
-              link: "mailto:info@drrnguptaclinic.com",
-              extra: "Response within 24 hours",
+              value: "aadi.veda1@gmail.com",
+              link: "mailto:aadi.veda1@gmail.com",
+              extra: "Response within 48 hours",
               icon: <Mail className="w-6 h-6 text-emerald-700" />,
             },
             {
               title: "Location",
               description: "Visit our clinic",
-              value: "123 Wellness Street, New Delhi, India 110001",
+              value:
+                "Address 1: Dr R N Gupta Memorial Clinic Khoyathong, Thangal Bazar, Near Traffic Point, Opp. Senapati Bus Parking, Imphal, 795001, Manipur ",
               link: "https://maps.google.com/?q=Dr+R+N+Gupta+Clinic+Delhi",
+              extra: "View on Google Maps →",
+              icon: <MapPin className="w-6 h-6 text-emerald-700" />,
+            },
+            {
+              title: "Location 2",
+              description: "Visit our clinic",
+              value:
+                "Address 2: Dr N K Gupta Ananda Apartment Near CDA Building ",
+              link: "https://maps.app.goo.gl/8NZfTdqpha68mqEU7?g_st=awb",
               extra: "View on Google Maps →",
               icon: <MapPin className="w-6 h-6 text-emerald-700" />,
             },
@@ -177,7 +187,7 @@ export default function ContactPage() {
                 Emergency consultations available
               </p>
               <p className="text-emerald-700 font-semibold">
-                Call: +91 98765 43210
+                Call: +91 74889 31899
               </p>
             </div>
           </div>
@@ -273,7 +283,7 @@ export default function ContactPage() {
             </h3>
             <div className="rounded-lg overflow-hidden shadow-lg border border-emerald-200 h-96">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.5234567890!2d77.2099!3d28.6139!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce2cc00000001%3A0x1234567890abcdef!2sNew%20Delhi%2C%20India!5e0!3m2!1sen!2sin!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3621.433600373221!2d93.9378309!3d24.814841200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x374927f2b1e8bb0f%3A0x14b0469bb889c061!2sUMA%20AYURVEDIC%20PHARMACY%20AND%20CLINIC!5e0!3m2!1sen!2sin!4v1761067656409!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -284,7 +294,7 @@ export default function ContactPage() {
             </div>
             <p className="text-sm text-gray-600 mt-4">
               <a
-                href="https://maps.google.com/?q=Dr+R+N+Gupta+Clinic+Delhi"
+                href="https://maps.app.goo.gl/8NZfTdqpha68mqEU7?g_st=awb"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-emerald-700 hover:text-emerald-800 font-semibold"
@@ -342,7 +352,7 @@ export default function ContactPage() {
                 icon: <Youtube className="w-6 h-6" />,
               },
               {
-                href: "https://whatsapp.com",
+                href: "https://wa.me/7488931899",
                 label: "WhatsApp",
                 icon: <MessageCircle className="w-6 h-6" />,
               },
