@@ -73,7 +73,7 @@ export default function ContactPage() {
           <Leaf className="w-8 h-8 text-emerald-700" />
           <div>
             <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">
-              Our Legacy
+              Our Foundation
             </p>
             <h1 className="text-2xl font-bold text-emerald-900">
               Dr. R N Gupta Clinic
