@@ -3,12 +3,12 @@ import { type NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { name, email, phone, subject, message } = await request.json();
-
+    console.log(process.env.BREVO_API_KEY);
     const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
       method: "POST",
       headers: {
         accept: "application/json",
-        "api-key": process.env.BREVO_API_KEY || "",
+        "api-key": process.env.BREVO_API_KEY as string,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
