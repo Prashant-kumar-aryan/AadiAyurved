@@ -28,7 +28,7 @@ export async function GET(
       return NextResponse.json({ error: "Invalid product ID." }, { status: 400 });
     }
 
-    const doc = await Product.findById(id).lean();
+    const doc = await Product.findById(id);
 
     if (!doc) {
       return NextResponse.json({ error: "Product not found." }, { status: 404 });
