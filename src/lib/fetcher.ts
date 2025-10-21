@@ -1,8 +1,18 @@
-export async function fetcher<T = any>(url: string): Promise<T> {
-  const res = await fetch(url)
+export async function fetcher<T>(url: string): Promise<T> {
+  const res = await fetch(url);
+
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}))
-    throw new Error(body?.error || `Request failed: ${res.status}`)
+    // Try parsing error JSON, but safely
+    let errorMessage = `Request failed: ${res.status}`;
+    try {
+      const body = (await res.json()) as { error?: string };
+      if (body?.error) errorMessage = body.error;
+    } catch {
+      /* ignore parsing errors */
+    }
+
+    throw new Error(errorMessage);
   }
-  return res.json() as Promise<T>
+
+  return (await res.json()) as T;
 }

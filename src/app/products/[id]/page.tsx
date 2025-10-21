@@ -18,9 +18,10 @@ async function getProduct(id: string): Promise<ProductDetailResponse> {
 export default async function ProductDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>; // ✅ mark as Promise
 }) {
-  const product = await getProduct(params.id);
+  const { id } = await params; // ✅ await it here
+  const product = await getProduct(id);
 
   return (
     <main className="container mx-auto max-w-6xl px-4 py-6 md:py-8">

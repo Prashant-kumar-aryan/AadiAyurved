@@ -7,15 +7,17 @@ import type { ProductListResponse } from "@/types/product";
 import { ProductCard } from "@/components/products/product-card";
 import { ProductsFilters } from "@/components/products/filters";
 import { useRouter } from "next/navigation";
-import { CartMini } from "@/components/cart/cart-mini";
+import { useCart } from "@/components/cart/cart-provider";
 
 export default function ProductsPage() {
   const router = useRouter();
+  const { addItem } = useCart(); // ✅ FIX: useCart destructure
   const [productType, setProductType] = useState<string>("all");
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const limit = 12;
 
+  // ✅ Build query string
   const query = useMemo(() => {
     const params = new URLSearchParams();
     if (productType) params.set("productType", productType);
@@ -25,6 +27,7 @@ export default function ProductsPage() {
     return `/api/products?${params.toString()}`;
   }, [productType, search, page]);
 
+  // ✅ Fetch products
   const { data, error, isLoading } = useSWR<ProductListResponse>(
     query,
     fetcher
@@ -34,12 +37,12 @@ export default function ProductsPage() {
 
   return (
     <main className="container mx-auto max-w-7xl px-4 py-6 md:py-8">
-      <CartMini />
       <header className="mb-4 md:mb-6">
         <h1 className="text-pretty text-2xl md:text-3xl font-bold">Products</h1>
-        <p className="opacity-80">Browse all products and kits.</p>
+        <p className="opacity-80">Browse all Ayurvedic products and kits.</p>
       </header>
 
+      {/* ✅ Filters */}
       <ProductsFilters
         productType={productType}
         onProductTypeChange={(v) => {
@@ -53,6 +56,7 @@ export default function ProductsPage() {
         }}
       />
 
+      {/* ✅ Products Grid */}
       <section className="mt-6 min-h-[200px]">
         {isLoading && <div className="opacity-80">Loading products…</div>}
         {error && (
@@ -60,7 +64,6 @@ export default function ProductsPage() {
             Failed to load products: {error.message}
           </div>
         )}
-
         {data && data.products.length === 0 && (
           <div className="opacity-80">No products found.</div>
         )}
@@ -75,18 +78,15 @@ export default function ProductsPage() {
                 category={p.category}
                 price={p.price}
                 name={p.name}
+                size={p.size}
                 onView={() => router.push(`/products/${p._id}`)}
-                onAddToCart={() => {
-                  // Debug/placeholder. Replace with your real cart integration.
-                  console.log("[v0] Add to cart clicked:", p._id);
-                  alert("Added to cart (demo)");
-                }}
               />
             ))}
           </div>
         )}
       </section>
 
+      {/* ✅ Pagination */}
       <nav
         className="mt-8 flex items-center justify-center gap-2"
         role="navigation"

@@ -12,7 +12,7 @@ export function QuantitySelector({
   value,
   onChange,
   min = 1,
-  max = 999,
+  max = 10,
   ariaLabel,
 }: Props) {
   return (

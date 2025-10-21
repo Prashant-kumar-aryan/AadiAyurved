@@ -5,7 +5,7 @@ import Topbar from "@/components/TopBar";
 import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/components/cart/cart-provider";
 import { CartMini } from "@/components/cart/cart-mini";
-
+import { Toaster } from "react-hot-toast";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,10 +32,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Topbar />
-        <Navbar />
-        <main>
-          <CartProvider>{children}</CartProvider>
-        </main>
+        <CartProvider>
+          <Navbar />
+          <Toaster />
+          <main>{children}</main>
+        </CartProvider>
       </body>
     </html>
   );

@@ -5,12 +5,21 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
 
+// 🖼️ Define the expected shape of a slide
 type Slide = {
   src: string;
   alt?: string;
   caption?: string;
   href: string;
 };
+
+// 🧾 Define the shape of data returned from `/api/home`
+interface CarouselItem {
+  img: string;
+  href?: string;
+  alt?: string;
+  caption?: string;
+}
 
 export function AutoCarousel({
   intervalMs = 4000,
@@ -24,25 +33,32 @@ export function AutoCarousel({
   const [slides, setSlides] = React.useState<Slide[]>([]);
   const [index, setIndex] = React.useState(0);
 
-  // Fetch carousel images from API
+  // 🧠 Fetch carousel images from API
   React.useEffect(() => {
     const fetchCarousel = async () => {
       try {
         const res = await fetch("/api/home");
-        const data = await res.json();
-        const fetchedSlides = data?.data?.map((item: any) => ({
-          src: item.img,
-          href: item.href || "#",
-        }));
-        setSlides(fetchedSlides || []);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: { data?: CarouselItem[] } = await res.json();
+
+        const fetchedSlides: Slide[] =
+          data?.data?.map((item) => ({
+            src: item.img,
+            href: item.href || "#",
+            alt: item.alt,
+            caption: item.caption,
+          })) ?? [];
+
+        setSlides(fetchedSlides);
       } catch (error) {
         console.error("Failed to load carousel:", error);
       }
     };
+
     fetchCarousel();
   }, []);
 
-  // Auto-advance
+  // ⏱️ Auto-advance logic
   React.useEffect(() => {
     if (slides.length <= 1) return;
     const id = setInterval(() => {
@@ -109,7 +125,7 @@ export function AutoCarousel({
         </div>
       </div>
 
-      {/* Controls */}
+      {/* ⬅️➡️ Controls */}
       <div className="absolute inset-0 flex items-center justify-between p-2 md:p-4 pointer-events-none">
         <button
           type="button"
@@ -151,7 +167,7 @@ export function AutoCarousel({
         </button>
       </div>
 
-      {/* Indicators */}
+      {/* 🔘 Indicators */}
       <div className="absolute inset-x-0 bottom-2 md:bottom-4 flex items-center justify-center gap-2">
         {slides.map((_, i) => {
           const active = i === index;

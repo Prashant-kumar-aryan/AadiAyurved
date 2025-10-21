@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ShoppingCart, User, Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import { CartMini } from "./cart/cart-mini";
 
 type DropdownKey = "pain" | "services" | null;
 
@@ -83,7 +84,7 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           {/* Left: Logo */}
           <div className="flex items-center gap-2">
-            <img src="logo.png" alt="logo" className="size-14" />
+            <img src="/logo.png" alt="logo" className="size-14" />
             <Link
               href="/"
               className="text-xl font-semibold tracking-tight text-gray-900"
@@ -161,13 +162,9 @@ export default function Header() {
 
           {/* Right: Icons */}
           <div className="flex items-center gap-1">
-            <Link
-              href="/cart"
-              className="relative rounded-md p-2 text-gray-700 hover:bg-gray-100 transition-all duration-200"
-              aria-label="View cart"
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Link>
+            <div className="relative rounded-md p-2 text-gray-700 hover:bg-gray-100 transition-all duration-200">
+              <CartMini />
+            </div>
             <Link
               href="/profile"
               className="rounded-md p-2 text-gray-700 hover:bg-gray-100 transition-all duration-200"
@@ -305,7 +302,7 @@ export default function Header() {
                 className="flex flex-1 items-center justify-center gap-2 rounded-md border border-gray-200 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-100 transition-all duration-200"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                <ShoppingCart className="h-5 w-5" />
+                <CartMini />
                 Cart
               </Link>
               <Link

@@ -4,6 +4,7 @@ export type ProductListItem = {
   type: "product" | "kit"
   price: number
   category: string
+  size:string
   name: string
 }
 
@@ -43,5 +44,4 @@ export type ProductDetailResponse = {
     display: { original: number; sale: number; percentOff: number }
   }
   // include any other fields for completeness
-  raw: any
 }

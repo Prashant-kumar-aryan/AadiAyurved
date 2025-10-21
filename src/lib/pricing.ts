@@ -19,17 +19,23 @@ export function computeTenPercentOff(salePrice: number): DiscountDisplay {
  * - 'kit': use 'price' as kit price
  * - 'product': prefer sizePrices[0].price, fallback to 'price'
  */
+
 export function resolveListPrice(input: {
   productType?: string
   price?: number | null
-  sizePrices?: Array<{ price?: number | null }> | null
-}) {
-  const type = input.productType
-  if (type === "kit") {
-    return input.price ?? 0
-  }
-  // product
-  const firstSizePrice = input.sizePrices && input.sizePrices.length > 0 ? (input.sizePrices[0]?.price ?? null) : null
+  sizePrices?: Array<{ size?: string | null; price?: number | null }> | null
+}): { price: number; size?: string | null } {
+  const { productType, price, sizePrices } = input
 
-  return firstSizePrice ?? input.price ?? 0
+  if (productType === "kit") {
+    return { price: price ?? 0 }
+  }
+
+  // product case
+  if (Array.isArray(sizePrices) && sizePrices.length > 0) {
+    const first = sizePrices[0]
+    return { price: first?.price ?? 0, size: first?.size ?? null }
+  }
+
+  return { price: price ?? 0 }
 }

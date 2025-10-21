@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { ShoppingCart } from "lucide-react";
 import { QuantitySelector } from "./quantity-selector";
 import { useCart } from "@/components/cart/cart-provider";
 import { computeTenPercentOff } from "@/lib/pricing";
@@ -12,6 +13,7 @@ type Props = {
   category: string;
   price: number;
   name: string;
+  size: string;
   onView: () => void;
   onAddToCart?: () => void;
 };
@@ -20,6 +22,7 @@ export function ProductCard({
   image,
   type,
   category,
+  size,
   price,
   name,
   onView,
@@ -29,77 +32,81 @@ export function ProductCard({
   const { addItem } = useCart();
   const display = computeTenPercentOff(price);
 
+  const handleAddToCart = () => {
+    // if (onAddToCart) return onAddToCart();
+    addItem({
+      id: (name + image).toString(),
+      name,
+      image: image || "/modern-tech-product.png",
+      type,
+      category,
+      unitPrice: display.sale,
+      quantity: qty,
+    });
+  };
+
   return (
-    <article className="rounded-lg border bg-card text-card-foreground overflow-hidden flex flex-col hover:shadow-sm transition-shadow">
-      <div className="aspect-square bg-muted relative">
+    <article
+      onClick={onView}
+      className="cursor-pointer select-none rounded-lg border bg-card text-card-foreground 
+                 overflow-hidden flex flex-col hover:shadow-md active:scale-[0.97] 
+                 transition-all duration-150 w-full max-w-[260px]"
+    >
+      {/* 🖼️ Slightly larger image area */}
+      <div className="relative w-full h-[200px] bg-muted flex items-center justify-center">
         {image ? (
           <Image
-            src={image || "/placeholder.svg"}
+            src={image}
             alt={name}
             fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-contain p-3"
+            sizes="(max-width: 768px) 100vw, 20vw"
           />
         ) : (
           <img
-            src={
-              "/placeholder.svg?height=600&width=600&query=no%20image%20available"
-            }
-            alt=""
-            aria-hidden="true"
-            className="w-full h-full object-cover"
+            src="/placeholder.svg"
+            alt="No image"
+            className="w-full h-full object-contain p-3"
           />
         )}
       </div>
 
-      <div className="p-4 flex-1 flex flex-col gap-2">
-        <h3 className="text-balance text-base font-semibold">{name}</h3>
-        <div className="flex items-center justify-between text-sm opacity-80">
+      {/* 🧾 Info section */}
+      <div
+        className="p-3 flex flex-col gap-1.5 text-[12px] sm:text-sm flex-1"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="font-medium line-clamp-1">{name}</h3>
+        <div className="flex justify-between text-muted-foreground text-[11px]">
           <span className="capitalize">{type}</span>
-          <span className="">{category}</span>
+          <span>{category}</span>
         </div>
 
-        <div className="mt-1 flex items-end gap-2">
-          <span className="text-muted-foreground line-through text-sm">
+        <div className="mt-1 flex items-end gap-1">
+          <span className="line-through text-[11px] text-muted-foreground">
             ₹{display.original}
           </span>
-          <span className="text-lg font-semibold">₹{display.sale}</span>
-          <span className="text-xs font-medium text-green-600">
+          <span className="text-base font-semibold">₹{display.sale}</span>
+          <span className="text-[11px] text-green-600 font-medium">
             {display.percentOff}% OFF
           </span>
         </div>
 
-        <div className="mt-auto flex items-center gap-2">
-          <button
-            onClick={onView}
-            className="px-3 py-2 rounded-md bg-primary text-primary-foreground"
-            aria-label={`View ${name}`}
-          >
-            View
-          </button>
+        <div className="mt-2 flex items-center justify-between">
           <QuantitySelector
             value={qty}
             onChange={setQty}
             ariaLabel={`Quantity for ${name}`}
           />
           <button
-            onClick={() => {
-              if (onAddToCart) return onAddToCart();
-              addItem({
-                id: (name + image).toString(), // will be overwritten by caller page props if needed
-                // Note: page passes full data below; this fallback avoids crash if missing
-                name,
-                image: image || "/modern-tech-product.png",
-                type: type,
-                category,
-                unitPrice: display.sale,
-                quantity: qty,
-              });
+            onClick={(e) => {
+              e.stopPropagation();
+              handleAddToCart();
             }}
-            className="px-3 py-2 rounded-md border"
-            aria-label={`Add ${name} to cart`}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md border text-[11px] hover:bg-muted active:scale-95 transition"
           >
-            Add to Cart
+            <ShoppingCart className="w-3.5 h-3.5" />
+            Add
           </button>
         </div>
       </div>

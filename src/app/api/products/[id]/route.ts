@@ -1,74 +1,69 @@
-import { NextResponse } from "next/server"
-import mongoose from "mongoose"
-import connectDB from "@/lib/connectDB"
-import Product from "@/models/Product"
+import { NextResponse } from "next/server";
+import mongoose from "mongoose";
+import connectDB from "@/lib/connectDB";
+import Product from "@/models/Product";
 
-// 🧮 Utility function for "10% OFF" display
 function computeTenPercentOff(price: number) {
-  const percentOff = 10
-  const original = Math.round(price * (1 + percentOff / 100))
-  const sale = price
-  return { original, sale, percentOff }
+  const percentOff = 10;
+  const original = Math.round(price * (1 + percentOff / 100));
+  const sale = price;
+  return { original, sale, percentOff };
+}
+
+interface SizePrice {
+  size: string;
+  quantity: number;
+  price: number;
 }
 
 export async function GET(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectDB()
+    const { id } = await params; // ✅ FIXED
+    await connectDB();
 
-    const { id } = params
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { error: "Invalid product ID." },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: "Invalid product ID." }, { status: 400 });
     }
 
-    const doc = await Product.findById(id);
-    
+    const doc = await Product.findById(id).lean();
+
     if (!doc) {
-      return NextResponse.json(
-        { error: "Product not found." },
-        { status: 404 }
-      )
+      return NextResponse.json({ error: "Product not found." }, { status: 404 });
     }
 
-    // 🖼️ Combine hero + product images
     const images: string[] = [
-      ...(doc.heroImageUrl ? [doc.heroImageUrl] : []),
+      ...(typeof doc.heroImageUrl === "string" ? [doc.heroImageUrl] : []),
       ...(Array.isArray(doc.productImageUrls) ? doc.productImageUrls : []),
-    ]
+    ];
 
-    // 💰 Handle size-based prices (for "product" type)
     const sizePrices =
       Array.isArray(doc.sizePrices) && doc.sizePrices.length > 0
-        ? doc.sizePrices.map((sp: any) => {
-            const price = typeof sp.price === "number" ? sp.price : 0
+        ? doc.sizePrices.map((sp: SizePrice) => {
+            const price = typeof sp.price === "number" ? sp.price : 0;
             return {
               size: sp.size,
               quantity: sp.quantity,
               price,
               display: computeTenPercentOff(price),
-            }
+            };
           })
-        : undefined
+        : undefined;
 
-    // 💸 Handle kit price (for "kit" type)
     let kitPrice:
       | {
-          price: number
-          display: { original: number; sale: number; percentOff: number }
+          price: number;
+          display: { original: number; sale: number; percentOff: number };
         }
-      | undefined = undefined
+      | undefined = undefined;
 
     if (doc.productType === "kit") {
-      const price = typeof doc.price === "number" ? doc.price : 0
-      kitPrice = { price, display: computeTenPercentOff(price) }
+      const price = typeof doc.price === "number" ? doc.price : 0;
+      kitPrice = { price, display: computeTenPercentOff(price) };
     }
 
-    // 🧾 Prepare final response
     const response = {
       _id: String(doc._id),
       name: doc.productName,
@@ -93,16 +88,15 @@ export async function GET(
       howToUse: doc.howToUse,
       keyIngredients: doc.keyIngredients,
       faqs: doc.faqs,
-      // optional raw field for debugging
       raw: process.env.NODE_ENV === "development" ? doc : undefined,
-    }
+    };
 
-    return NextResponse.json(response, { status: 200 })
-  } catch (err: any) {
-    console.error("[GET /api/products/:id] Error:", err?.message || err)
+    return NextResponse.json(response, { status: 200 });
+  } catch (err) {
+    console.error("[GET /api/products/:id] Error:", err);
     return NextResponse.json(
       { error: "Failed to fetch product details." },
       { status: 500 }
-    )
+    );
   }
 }
