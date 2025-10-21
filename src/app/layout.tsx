@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { CartProvider } from "@/components/cart/cart-provider";
 import { CartMini } from "@/components/cart/cart-mini";
 import { Toaster } from "react-hot-toast";
+import { FloatingWhatsApp } from "@/components/floating-whatsapp-icon";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
           <Toaster />
           <main>{children}</main>
         </CartProvider>
+        <FloatingWhatsApp />
       </body>
     </html>
   );
