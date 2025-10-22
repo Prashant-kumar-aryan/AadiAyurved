@@ -10,7 +10,7 @@ export default async function getTopBar() {
   const baseUrl = `${protocol}://${host}`;
 
   const res = await fetch(`${baseUrl}/api/topBar`, {
-    next: { revalidate: 60 }, // optional caching
+    next: { revalidate: 360000 }, // optional caching
   });
 
   if (!res.ok) throw new Error("Failed to fetch topbar");

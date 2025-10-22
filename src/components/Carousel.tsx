@@ -37,7 +37,9 @@ export function AutoCarousel({
   React.useEffect(() => {
     const fetchCarousel = async () => {
       try {
-        const res = await fetch("/api/home");
+        const res = await fetch("/api/home", {
+          next: { revalidate: 36000 },
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data: { data?: CarouselItem[] } = await res.json();
 

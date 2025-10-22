@@ -8,10 +8,12 @@ import { ProductCard } from "@/components/products/product-card";
 import { ProductsFilters } from "@/components/products/filters";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/cart-provider";
+import { LoaderCircle } from "lucide-react";
 
 export default function ProductsPage() {
   const router = useRouter();
-  const { addItem } = useCart(); // ✅ FIX: useCart destructure
+  const { addItem } = useCart();
+
   const [productType, setProductType] = useState<string>("all");
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
@@ -37,7 +39,7 @@ export default function ProductsPage() {
 
   return (
     <main className="container mx-auto max-w-7xl px-4 py-6 md:py-8">
-      <header className="mb-4 md:mb-6">
+      <header className="mb-4 md:mb-6 text-center">
         <h1 className="text-pretty text-2xl md:text-3xl font-bold">Products</h1>
         <p className="opacity-80">Browse all Ayurvedic products and kits.</p>
       </header>
@@ -56,23 +58,35 @@ export default function ProductsPage() {
         }}
       />
 
-      {/* ✅ Products Grid */}
-      <section className="mt-6 min-h-[200px]">
-        {isLoading && <div className="opacity-80">Loading products…</div>}
+      {/* ✅ Products Section */}
+      <section className="mt-8 min-h-[250px] flex flex-wrap justify-center gap-6">
+        {/* Loading Spinner */}
+        {isLoading && (
+          <div className="flex justify-center items-center w-full h-40">
+            <LoaderCircle className="w-10 h-10 animate-spin text-muted-foreground" />
+          </div>
+        )}
+
+        {/* Error */}
         {error && (
-          <div className="text-destructive">
+          <div className="text-destructive text-center w-full">
             Failed to load products: {error.message}
           </div>
         )}
+
+        {/* No products */}
         {data && data.products.length === 0 && (
-          <div className="opacity-80">No products found.</div>
+          <div className="opacity-80 text-center w-full">
+            No products found.
+          </div>
         )}
 
-        {data && data.products.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {data.products.map((p) => (
+        {/* Product Cards */}
+        {data &&
+          data.products.length > 0 &&
+          data.products.map((p) => (
+            <div key={p._id} className="flex justify-center">
               <ProductCard
-                key={p._id}
                 image={p.image}
                 type={p.type}
                 category={p.category}
@@ -81,14 +95,13 @@ export default function ProductsPage() {
                 size={p.size}
                 onView={() => router.push(`/products/${p._id}`)}
               />
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
       </section>
 
       {/* ✅ Pagination */}
       <nav
-        className="mt-8 flex items-center justify-center gap-2"
+        className="mt-10 flex items-center justify-center gap-2"
         role="navigation"
         aria-label="Pagination"
       >

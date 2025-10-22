@@ -33,7 +33,6 @@ export function ProductCard({
   const display = computeTenPercentOff(price);
 
   const handleAddToCart = () => {
-    // if (onAddToCart) return onAddToCart();
     addItem({
       id: (name + image).toString(),
       name,
@@ -48,64 +47,60 @@ export function ProductCard({
   return (
     <article
       onClick={onView}
-      className="cursor-pointer select-none rounded-lg border bg-card text-card-foreground 
-                 overflow-hidden flex flex-col hover:shadow-md active:scale-[0.97] 
-                 transition-all duration-150 w-full max-w-[260px]"
+      className="flex flex-col w-[250px] bg-white rounded-xl shadow-lg hover:shadow-2xl cursor-pointer overflow-hidden transition-all duration-200"
     >
-      {/* 🖼️ Slightly larger image area */}
-      <div className="relative w-full h-[200px] bg-muted flex items-center justify-center">
-        {image ? (
-          <Image
-            src={image}
-            alt={name}
-            fill
-            className="object-contain p-3"
-            sizes="(max-width: 768px) 100vw, 20vw"
-          />
-        ) : (
-          <img
-            src="/placeholder.svg"
-            alt="No image"
-            className="w-full h-full object-contain p-3"
-          />
-        )}
+      {/* Image with category badge */}
+      <div className="relative h-56 w-full bg-gray-100 flex items-center justify-center">
+        <Image
+          src={image || "/placeholder.svg"}
+          alt={name}
+          fill
+          className="object-contain p-3"
+        />
+
+        {/* Category badge top-right */}
+        <span
+          className={`absolute top-2 right-2 px-2 py-0.5 text-[10px] font-semibold rounded ${
+            type === "product"
+              ? "bg-emerald-600 text-white"
+              : "bg-purple-600 text-white"
+          }`}
+        >
+          {type.toUpperCase()}
+        </span>
       </div>
 
-      {/* 🧾 Info section */}
-      <div
-        className="p-3 flex flex-col gap-1.5 text-[12px] sm:text-sm flex-1"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="font-medium line-clamp-1">{name}</h3>
-        <div className="flex justify-between text-muted-foreground text-[11px]">
-          <span className="capitalize">{type}</span>
-          <span>{category}</span>
-        </div>
+      {/* Info */}
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <h3 className="font-semibold text-sm line-clamp-2">{name}</h3>
 
-        <div className="mt-1 flex items-end gap-1">
-          <span className="line-through text-[11px] text-muted-foreground">
-            ₹{display.original}
-          </span>
-          <span className="text-base font-semibold">₹{display.sale}</span>
-          <span className="text-[11px] text-green-600 font-medium">
+        <div className="flex items-center justify-between mt-2">
+          <div>
+            <span className="line-through text-gray-400 text-xs mr-1">
+              ₹{display.original}
+            </span>
+            <span className="font-semibold text-base">₹{display.sale}</span>
+          </div>
+          <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] font-medium">
             {display.percentOff}% OFF
           </span>
         </div>
 
-        <div className="mt-2 flex items-center justify-between">
+        {/* Quantity + Add button */}
+        <div className="mt-3 flex items-center gap-2">
           <QuantitySelector
             value={qty}
             onChange={setQty}
-            ariaLabel={`Quantity for ${name}`}
+            ariaLabel={`Qty for ${name}`}
           />
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleAddToCart();
             }}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-md border text-[11px] hover:bg-muted active:scale-95 transition"
+            className="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white text-xs font-medium py-1.5 rounded-lg flex items-center justify-center gap-1 hover:bg-blue-700 transition"
           >
-            <ShoppingCart className="w-3.5 h-3.5" />
+            <ShoppingCart className="w-4 h-4" />
             Add
           </button>
         </div>

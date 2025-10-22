@@ -123,7 +123,7 @@ export default function ContactPage() {
               value:
                 "Address 1: Dr R N Gupta Memorial Clinic Khoyathong, Thangal Bazar, Near Traffic Point, Opp. Senapati Bus Parking, Imphal, 795001, Manipur ",
               link: "https://maps.google.com/?q=Dr+R+N+Gupta+Clinic+Delhi",
-              extra: "View on Google Maps →",
+              extra: "Click address to view on Google Maps →",
               icon: <MapPin className="w-6 h-6 text-emerald-700" />,
             },
             {
@@ -132,7 +132,7 @@ export default function ContactPage() {
               value:
                 "Address 2: Dr N K Gupta Ananda Apartment Near CDA Building ",
               link: "https://maps.app.goo.gl/8NZfTdqpha68mqEU7?g_st=awb",
-              extra: "View on Google Maps →",
+              extra: "Click address to view on Google Maps →",
               icon: <MapPin className="w-6 h-6 text-emerald-700" />,
             },
           ].map((card) => (
@@ -154,7 +154,14 @@ export default function ContactPage() {
                 {card.value}
               </a>
               {card.extra && (
-                <p className="text-gray-500 text-sm mt-2">{card.extra}</p>
+                <p
+                  className="text-gray-500 text-sm mt-2"
+                  onClick={() => {
+                    card.extra.includes("location");
+                  }}
+                >
+                  {card.extra}
+                </p>
               )}
             </div>
           ))}
