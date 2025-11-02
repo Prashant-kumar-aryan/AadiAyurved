@@ -53,8 +53,6 @@ export interface ProductDetailResponse {
   keyIngredients?: string[];
   faqs?: FAQ[];
 
-  // Raw document (only in development)
-  raw?: any;
 }
 
 export type ProductListResponse = {
