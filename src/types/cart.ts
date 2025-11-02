@@ -14,8 +14,8 @@ export type AddToCartInput = {
   id: string
   name: string
   image: string
-  type: "product" | "kit"
-  category: string
+  type: "product" | "kit"|undefined
+  category: string|undefined
   unitPrice: number
   size?: string | null
   quantity: number

@@ -17,7 +17,6 @@ export function CartMini() {
         className="relative flex items-center gap-2 px-3 py-2 rounded-md border hover:bg-gray-50 transition"
       >
         <ShoppingCart size={18} />
-        <span>Cart</span>
         <span className="ml-2 inline-flex items-center justify-center rounded-full bg-blue-600 text-white text-xs px-2 py-0.5">
           {count}
         </span>

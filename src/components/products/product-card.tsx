@@ -6,6 +6,7 @@ import { ShoppingCart } from "lucide-react";
 import { QuantitySelector } from "./quantity-selector";
 import { useCart } from "@/components/cart/cart-provider";
 import { computeTenPercentOff } from "@/lib/pricing";
+import toast from "react-hot-toast";
 
 type Props = {
   image: string;
@@ -42,6 +43,7 @@ export function ProductCard({
       unitPrice: display.sale,
       quantity: qty,
     });
+    toast.success("Added To Cart");
   };
 
   return (

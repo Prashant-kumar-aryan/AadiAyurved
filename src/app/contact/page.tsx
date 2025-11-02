@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import {
   Mail,
   Phone,
@@ -54,6 +55,7 @@ export default function ContactPage() {
           subject: "",
           message: "",
         });
+        toast.success("Message Sent");
       } else {
         setSubmitStatus("error");
       }
@@ -76,7 +78,7 @@ export default function ContactPage() {
               Our Foundation
             </p>
             <h1 className="text-2xl font-bold text-emerald-900">
-              Dr. R N Gupta Clinic
+              Dr. R N Gupta Memorial Clinic
             </h1>
             <p className="text-sm text-emerald-600">
               Ayurvedic Wellness Since 1980
@@ -121,7 +123,7 @@ export default function ContactPage() {
               title: "Location",
               description: "Visit our clinic",
               value:
-                "Address 1: Dr R N Gupta Memorial Clinic Khoyathong, Thangal Bazar, Near Traffic Point, Opp. Senapati Bus Parking, Imphal, 795001, Manipur ",
+                "Address 1: Dr R N Gupta Memorial Clinic, Khoyathong, Thangal Bazar, Near Traffic Point, Opp. Senapati Bus Parking, Imphal, Manipur, 795001",
               link: "https://maps.google.com/?q=Dr+R+N+Gupta+Clinic+Delhi",
               extra: "Click address to view on Google Maps →",
               icon: <MapPin className="w-6 h-6 text-emerald-700" />,
@@ -130,7 +132,7 @@ export default function ContactPage() {
               title: "Location 2",
               description: "Visit our clinic",
               value:
-                "Address 2: Dr N K Gupta Ananda Apartment Near CDA Building ",
+                "Address 2: Dr N K Gupta, Ananda Apartment, Near CDA Building, Patna, 800001",
               link: "https://maps.app.goo.gl/8NZfTdqpha68mqEU7?g_st=awb",
               extra: "Click address to view on Google Maps →",
               icon: <MapPin className="w-6 h-6 text-emerald-700" />,
@@ -344,12 +346,12 @@ export default function ContactPage() {
           <div className="flex justify-center gap-6">
             {[
               {
-                href: "https://facebook.com",
+                href: "https://www.facebook.com/share/177cgLV8F4/",
                 label: "Facebook",
                 icon: <Facebook className="w-6 h-6" />,
               },
               {
-                href: "https://instagram.com",
+                href: "https://www.instagram.com/aadiayurved?igsh=dzh3MGVkYnV6MDl5",
                 label: "Instagram",
                 icon: <Instagram className="w-6 h-6" />,
               },

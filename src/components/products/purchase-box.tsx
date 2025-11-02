@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { ProductDetailResponse } from "@/types/product";
 import { QuantitySelector } from "./quantity-selector";
 import { useCart } from "@/components/cart/cart-provider";
+import toast from "react-hot-toast";
 
 export function PurchaseBox({ product }: { product: ProductDetailResponse }) {
   const { addItem } = useCart();
@@ -84,7 +85,7 @@ export function PurchaseBox({ product }: { product: ProductDetailResponse }) {
 
       <button
         className="w-full px-4 py-3 rounded-md bg-primary text-primary-foreground"
-        onClick={() =>
+        onClick={() => {
           addItem({
             id: product._id,
             name: product.name,
@@ -94,8 +95,9 @@ export function PurchaseBox({ product }: { product: ProductDetailResponse }) {
             unitPrice,
             size: sizeLabel || null,
             quantity: qty,
-          })
-        }
+          });
+          toast.success("Added To Cart");
+        }}
         aria-label={`Add ${product.name} to cart`}
       >
         Add to Cart

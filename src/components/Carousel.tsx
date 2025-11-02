@@ -4,6 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Image from "next/image";
+import Loader from "./Loader";
 
 // 🖼️ Define the expected shape of a slide
 type Slide = {
@@ -75,8 +76,8 @@ export function AutoCarousel({
 
   if (!slides.length) {
     return (
-      <div className="h-64 md:h-96 flex items-center justify-center text-muted-foreground border rounded-lg">
-        Loading carousel...
+      <div className="w-full">
+        <Loader />;
       </div>
     );
   }

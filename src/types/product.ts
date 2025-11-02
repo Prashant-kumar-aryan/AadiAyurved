@@ -1,11 +1,60 @@
-export type ProductListItem = {
-  _id: string
-  image: string
-  type: "product" | "kit"
-  price: number
-  category: string
-  size:string
-  name: string
+export interface DisplayPrice {
+  original: number;
+  sale: number;
+  percentOff: number;
+}
+
+export interface SizePrice {
+  size: string;
+  quantity: number;
+  price: number;
+  display: DisplayPrice;
+}
+
+export interface KitPrice {
+  price: number;
+  display: DisplayPrice;
+}
+
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+/**
+ * Response shape returned from GET /api/products/[id]
+ */
+export interface ProductDetailResponse {
+  _id: string;
+  name: string;
+  shortDescription?: string;
+  longDescription?: string;
+  category?: string;
+  subcategory?: string;
+  microcategory?: string;
+  productType?: "product" | "kit"
+
+  // Images
+  images: string[];
+  heroImageUrl?: string;
+  productImageUrls: string[];
+
+  // Pricing
+  sizePrices?: SizePrice[];
+  kitPrice?: KitPrice;
+
+  // Additional Info
+  features?: string[];
+  benefits?: string[];
+  manufacturer?: string;
+  countryOfOrigin?: string;
+  expiryDate?: string;
+  howToUse?: string;
+  keyIngredients?: string[];
+  faqs?: FAQ[];
+
+  // Raw document (only in development)
+  raw?: any;
 }
 
 export type ProductListResponse = {
@@ -15,33 +64,12 @@ export type ProductListResponse = {
   products: ProductListItem[]
 }
 
-export type SizePriceDisplay = {
-  size?: string
-  price: number
-  quantity?: number
-  display: {
-    original: number
-    sale: number
-    percentOff: number
-  }
-}
-
-export type ProductDetailResponse = {
+export type ProductListItem = {
   _id: string
-  name: string
-  shortDescription?: string
-  longDescription?: string
+  image: string
+  type: "product" | "kit"
+  price: number
   category: string
-  subcategory: string
-  microcategory?: string
-  productType: "product" | "kit"
-  images: string[] // hero + gallery
-  heroImageUrl: string
-  productImageUrls: string[]
-  sizePrices?: SizePriceDisplay[]
-  kitPrice?: {
-    price: number
-    display: { original: number; sale: number; percentOff: number }
-  }
-  // include any other fields for completeness
+  size:string
+  name: string
 }

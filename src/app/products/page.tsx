@@ -7,12 +7,10 @@ import type { ProductListResponse } from "@/types/product";
 import { ProductCard } from "@/components/products/product-card";
 import { ProductsFilters } from "@/components/products/filters";
 import { useRouter } from "next/navigation";
-import { useCart } from "@/components/cart/cart-provider";
 import { LoaderCircle } from "lucide-react";
 
 export default function ProductsPage() {
   const router = useRouter();
-  const { addItem } = useCart();
 
   const [productType, setProductType] = useState<string>("all");
   const [search, setSearch] = useState<string>("");
